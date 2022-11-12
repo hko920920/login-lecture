@@ -3,7 +3,6 @@
 const express = require("express");
 const app = express();
 const home = require("./routes/home");
-const PORT = 3000;
 
 //app setting
 app.set("views", "./views");
