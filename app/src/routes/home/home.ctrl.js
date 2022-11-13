@@ -2,7 +2,7 @@
 
 const { is } = require("type-is");
 
-
+const UserStorage = require("../../models/UserStorage");
 
 const output = {
     hello: (req, res) => {
@@ -14,28 +14,25 @@ const output = {
     }
 };
 
-const users ={
-    id: ["woorimIT", "나개발", "김팀장"],
-    psword: ["1234", "1234", "123456"]  
-  };
+
 const process ={
     login: (req,res) =>{
         const id = req.body.id,
-        psword = req.body.psword;
+            psword = req.body.psword;
 
+        const users = UserStorage.getUsers("id","psword");
+
+        const response ={};
         if(users.id.includes(id)){
             const idx = users.id.indexOf(id);
             if(users.psword[idx] === psword){
-                return res.json({
-                    success: true,
-                });
+                response.success = true;
+                return res.json(response);
             }
         }
-
-        return res.json({
-            success: false,
-            msg: "failed to login.", 
-        })
+        response.success = false;
+        response.msg = "failed to login.";
+        return res.json(response);
     },
 };
 
